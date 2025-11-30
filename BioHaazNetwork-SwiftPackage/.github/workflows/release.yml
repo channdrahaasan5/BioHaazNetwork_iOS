@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Swift
+      uses: swift-actions/setup-swift@v1
+      with:
+        swift-version: "5.9"
+    
+    - name: Build Package
+      run: swift build
+    
+    - name: Test Package
+      run: swift test
+    
+    - name: Generate Documentation
+      run: swift package generate-documentation --target BioHaazNetwork
+    
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ## BioHaazNetwork ${{ github.ref }}
+          
+          A powerful and feature-rich networking SDK for iOS applications with offline support, background processing, and comprehensive logging.
+          
+          ### Features
+          - HTTP Methods (GET, POST, PUT, DELETE)
+          - Multi-Environment Support
+          - Offline Queue Management
+          - Background Processing
+          - Enhanced Logging
+          - File Upload/Download
+          - Plugin System
+          - Interceptors
+          - Mock Mode
+          - SSL Pinning
+          - Performance Tracking
+          
+          ### Installation
+          ```swift
+          dependencies: [
+              .package(url: "https://github.com/yourusername/BioHaazNetwork-iOS.git", from: "${{ github.ref }}")
+          ]
+          ```
+        draft: false
+        prerelease: false
+
+
+
+

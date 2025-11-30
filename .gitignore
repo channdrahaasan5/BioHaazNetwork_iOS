@@ -1,0 +1,101 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## User settings
+xcuserdata/
+
+## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
+*.xcscmblueprint
+*.xccheckout
+
+## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
+build/
+DerivedData/
+
+## Xcode Patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+!*.xcworkspace/xcshareddata/
+
+## CocoaPods
+Pods/
+*.podspec.lock
+
+## Carthage
+Carthage/Build/
+
+## Swift Package Manager
+.build/
+.swiftpm/
+
+## Environment files
+*.env
+*.env.local
+*.env.production
+*.env.development
+lambda-environment-variables.env
+application.properties
+application-*.properties
+
+## API Keys and Secrets
+*secret*
+*key*
+*password*
+*token*
+*.pem
+*.key
+*.p12
+*.cert
+
+## Build artifacts
+*.framework
+*.xcframework
+*.dSYM.zip
+*.ipa
+*.app
+
+## Logs
+*.log
+logs/
+
+## OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+## IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+## Test API (should not be in SDK repo)
+biohaaz-test-api/
+BioHaazTestAPI/
+ShareKai/
+
+## Android (if not needed in iOS repo)
+Android/
+
+## Example App (optional - can be included or excluded)
+# Example/
+
+## Temporary files
+*.tmp
+*.temp
+*.zip
+!BioHaazNetwork-*.zip
+
+## Documentation builds
+docs/_build/
+
