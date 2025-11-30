@@ -45,6 +45,7 @@ application-*.properties
 ## API Keys and Secrets
 *secret*
 *key*
+!**/BioHaazKeychain.swift
 *password*
 *token*
 *.pem
