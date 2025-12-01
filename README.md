@@ -41,7 +41,6 @@ dependencies: [
     .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.4")
 ]
 ```
-
 ### Manual Installation (.framework)
 
 1. Download `BioHaazNetwork-v1.0.4.framework.zip` from the [Releases](https://github.com/channdrahaasan5/BioHaazNetwork_iOS/releases) page
