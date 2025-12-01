@@ -27,40 +27,28 @@ A powerful and feature-rich networking SDK for iOS applications with offline sup
 
 ## Installation
 
-### CocoaPods
+### Swift Package Manager (Recommended)
 
-Add to your `Podfile`:
+**Via Xcode:**
+1. In Xcode, go to **File → Add Packages...**
+2. Enter: `https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git`
+3. Select version: `1.0.4` or later
+4. Click **Add Package**
 
-```ruby
-pod 'BioHaazNetwork', '~> 1.0.0'
-```
-
-Then run:
-```bash
-pod install
-```
-
-### Swift Package Manager
-
-Add the following to your `Package.swift`:
-
+**Via Package.swift:**
 ```swift
 dependencies: [
-    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.0")
+    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.4")
 ]
 ```
 
-Or add via Xcode:
-1. File → Add Packages...
-2. Enter: `https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git`
-3. Select version: `1.0.0` or later
-
 ### Manual Installation (.framework)
 
-1. Download the `BioHaazNetwork.framework` from the [Releases](https://github.com/channdrahaasan5/BioHaazNetwork_iOS/releases) page
-2. Drag and drop the framework into your Xcode project
-3. Make sure "Copy items if needed" is checked
-4. Add the framework to your target's "Embedded Binaries"
+1. Download `BioHaazNetwork-v1.0.4.framework.zip` from the [Releases](https://github.com/channdrahaasan5/BioHaazNetwork_iOS/releases) page
+2. Extract the zip file
+3. Drag and drop `BioHaazNetwork.framework` into your Xcode project
+4. Make sure "Copy items if needed" is checked
+5. Add the framework to your target's "Embedded Binaries" in Build Phases
 
 ## Quick Start
 
@@ -144,6 +132,6 @@ https://github.com/channdrahaasan5/BioHaazNetwork_iOS
 
 ## Version
 
-Current version: **1.0.0**
+Current version: **1.0.4**
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.

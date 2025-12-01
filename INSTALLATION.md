@@ -1,10 +1,38 @@
 # BioHaazNetwork iOS SDK - Installation Guide
 
-## Method 1: Manual Installation (Recommended)
+## Method 1: Swift Package Manager (Recommended)
+
+### Step 1: Add Package Dependency
+1. In Xcode, go to **File → Add Packages...**
+2. Enter the repository URL: `https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git`
+3. Select version: `1.0.4` or later
+4. Click **Add Package**
+
+### Step 2: Import and Use
+```swift
+import BioHaazNetwork
+
+// Initialize the SDK
+let config = BioHaazNetworkConfig(
+    baseURL: "https://api.example.com",
+    debug: true
+)
+
+BioHaazNetworkManager.shared.initialize(config: config)
+```
+
+**Alternative: Via Package.swift**
+```swift
+dependencies: [
+    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.4")
+]
+```
+
+## Method 2: Manual Installation (.framework)
 
 ### Step 1: Download the Framework
 1. Go to the [Releases](https://github.com/channdrahaasan5/BioHaazNetwork_iOS/releases) page
-2. Download the latest `BioHaazNetwork.framework.zip`
+2. Download `BioHaazNetwork-v1.0.4.framework.zip`
 3. Extract the zip file
 
 ### Step 2: Add to Xcode Project
@@ -18,47 +46,21 @@
 ### Step 3: Configure Build Settings
 1. Select your project in the Navigator
 2. Go to your target's "Build Phases"
-3. Expand "Link Binary With Libraries"
+3. Expand "Embed Frameworks"
 4. Verify `BioHaazNetwork.framework` is listed
 5. If not, click "+" and add it
 
-### Step 4: Configure Info.plist
-Add the following to your `Info.plist`:
-
-```xml
-<key>UIBackgroundModes</key>
-<array>
-    <string>fetch</string>
-    <string>processing</string>
-</array>
-```
-
-### Step 5: Import and Use
+### Step 4: Import and Use
 ```swift
 import BioHaazNetwork
 
 // Initialize the SDK
 let config = BioHaazNetworkConfig(
     baseURL: "https://api.example.com",
-    debug: true,
-    autoOfflineProcess: true,
-    offlineNotificationService: true
+    debug: true
 )
 
-BioHaazNetwork.shared.initialize(config: config)
-```
-
-## Method 2: Swift Package Manager (Coming Soon)
-
-### Step 1: Add Package Dependency
-1. In Xcode, go to File → Add Package Dependencies
-2. Enter the repository URL: `https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git`
-3. Select the version and click "Add Package"
-
-### Step 2: Import and Use
-```swift
-import BioHaazNetwork
-// Same usage as manual installation
+BioHaazNetworkManager.shared.initialize(config: config)
 ```
 
 ## Troubleshooting
@@ -87,8 +89,7 @@ import BioHaazNetwork
 - Swift 5.0+
 
 ### Supported Architectures
-- arm64 (iOS devices)
-- x86_64 (iOS Simulator)
+- arm64 (iOS devices - physical devices only)
 
 ## Support
 If you encounter any issues during installation, please:

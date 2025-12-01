@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "BioHaazNetwork"
-  spec.version      = "1.0.3"
+  spec.version      = "1.0.4"
   spec.summary      = "A powerful networking SDK for iOS with offline support and comprehensive logging"
   
   spec.description  = <<-DESC
@@ -27,7 +27,7 @@ Pod::Spec.new do |spec|
   spec.platform     = :ios, "13.0"
   spec.swift_version = "5.0"
   
-  spec.source       = { :git => "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", :tag => "v#{spec.version}" }
   
   spec.source_files = "BioHaazNetwork/**/*.{swift,h}"
   spec.public_header_files = "BioHaazNetwork/**/*.h"
