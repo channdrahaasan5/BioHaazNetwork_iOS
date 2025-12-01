@@ -25,9 +25,6 @@ let package = Package(
             name: "BioHaazNetwork",
             dependencies: [],
             path: "Sources/BioHaazNetwork",
-            exclude: [
-                "Info.plist"
-            ],
             publicHeadersPath: "."
         ),
     ],

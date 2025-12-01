@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "BioHaazNetwork"
-  spec.version      = "1.0.0"
+  spec.version      = "1.0.3"
   spec.summary      = "A powerful networking SDK for iOS with offline support and comprehensive logging"
   
   spec.description  = <<-DESC

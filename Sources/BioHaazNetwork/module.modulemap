@@ -1,0 +1,6 @@
+module BioHaazNetwork {
+    umbrella header "BioHaazNetwork.h"
+    export *
+    module * { export * }
+}
+
