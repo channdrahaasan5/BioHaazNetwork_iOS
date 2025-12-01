@@ -32,7 +32,7 @@ A powerful and feature-rich networking SDK for iOS applications with offline sup
 Add to your `Podfile`:
 
 ```ruby
-pod 'BioHaazNetwork', '~> 1.0.0'
+pod 'BioHaazNetwork', '~> 1.0.3'
 ```
 
 Then run:
@@ -46,14 +46,14 @@ Add the following to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.0")
+    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.3")
 ]
 ```
 
 Or add via Xcode:
 1. File → Add Packages...
 2. Enter: `https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git`
-3. Select version: `1.0.0` or later
+3. Select version: `1.0.3`
 
 ### Manual Installation (.framework)
 
