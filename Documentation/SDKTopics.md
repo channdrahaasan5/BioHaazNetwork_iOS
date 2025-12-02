@@ -182,11 +182,11 @@ let config = BioHaazNetworkConfig(
 
 ## 7. Offline Queue
 
-**Purpose:** Ensure POST requests are not lost when offline; queue and process manually or automatically.
+**Purpose:** Ensure POST, PUT, PATCH, and DELETE requests are not lost when offline; queue and process manually or automatically.
 
 **How it works:**
 - Enable `autoOfflineProcess` in config (default is true).
-- POST requests are queued when offline.
+- POST, PUT, PATCH, and DELETE requests are queued when offline.
 - Queue is automatically processed when app becomes active (if `autoOfflineProcess` is enabled).
 - You can also manually process the queue using `processOfflineQueue()`.
 

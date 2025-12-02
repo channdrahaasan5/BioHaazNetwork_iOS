@@ -5,7 +5,7 @@
 ### Step 1: Add Package Dependency
 1. In Xcode, go to **File → Add Packages...**
 2. Enter the repository URL: `https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git`
-3. Select version: `1.0.4` or later
+3. Select version: `1.0.5` or later
 4. Click **Add Package**
 
 ### Step 2: Import and Use
@@ -24,7 +24,7 @@ BioHaazNetworkManager.shared.initialize(config: config)
 **Alternative: Via Package.swift**
 ```swift
 dependencies: [
-    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.4")
+    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.5")
 ]
 ```
 
@@ -32,7 +32,7 @@ dependencies: [
 
 ### Step 1: Download the Framework
 1. Go to the [Releases](https://github.com/channdrahaasan5/BioHaazNetwork_iOS/releases) page
-2. Download `BioHaazNetwork-v1.0.4.framework.zip`
+2. Download `BioHaazNetwork-v1.0.5.framework.zip`
 3. Extract the zip file
 
 ### Step 2: Add to Xcode Project

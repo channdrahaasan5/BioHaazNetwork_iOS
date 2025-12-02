@@ -268,7 +268,7 @@ if (error) {
 ## 10. Advanced Features
 
 - **Plugins, Interceptors, Performance Tracker:** See `SDKInitialization.md` for advanced usage and registration.
-- **Offline Queue:** Enable `autoOfflineProcess` to queue POSTs when offline.
+- **Offline Queue:** Enable `autoOfflineProcess` to queue POST, PUT, PATCH, and DELETE requests when offline.
 - **Logging:** Use `loggingEnabled` in config and `BioHaazLogger` for custom logs.
 
 ---
@@ -289,14 +289,14 @@ if (error) {
 
 ## 12. How Offline Process Works
 
-The **offline process** in the BioHaazNetwork SDK ensures that important POST requests are not lost when the device is offline.
+The **offline process** in the BioHaazNetwork SDK ensures that important requests (POST, PUT, PATCH, DELETE) are not lost when the device is offline.
 
 ### 1. Enabling Offline Process
 - Controlled by the `autoOfflineProcess` parameter in `BioHaazNetworkConfig`.
 - Set `autoOfflineProcess: true` (default is true).
 
 ### 2. What Happens When Offline?
-- When you make a POST request and the device is **offline**:
+- When you make a POST, PUT, PATCH, or DELETE request and the device is **offline**:
   - The SDK **does not send** the request immediately.
   - Instead, it **queues** the request using the `BioHaazOfflineQueue` utility.
   - The request is stored locally (using `UserDefaults`).
@@ -305,7 +305,7 @@ The **offline process** in the BioHaazNetwork SDK ensures that important POST re
 - The SDK monitors app lifecycle events.
 - When the app becomes **active** (if `autoOfflineProcess` is enabled):
   - The SDK automatically **processes the offline queue**.
-  - All queued POST requests are sent in priority order (Critical → High → Normal → Low).
+  - All queued requests are sent in priority order (Critical → High → Normal → Low).
 - The SDK also monitors network status and processes the queue when network is restored.
 
 ### 4. Queue Management
@@ -316,10 +316,12 @@ The **offline process** in the BioHaazNetwork SDK ensures that important POST re
 
 ### Code Flow (Simplified)
 
-1. **POST Request While Offline**
+1. **Request While Offline (POST, PUT, PATCH, DELETE)**
    ```swift
    // This is handled internally by the SDK:
-   if config.autoOfflineProcess, !isNetworkAvailable, method.uppercased() == "POST" {
+   let methodUpper = method.uppercased()
+   let queueableMethods = ["POST", "PUT", "PATCH", "DELETE"]
+   if config.autoOfflineProcess, !isNetworkAvailable, queueableMethods.contains(methodUpper) {
        _ = BioHaazOfflineQueue.shared.add(request)
        completion(.failure(BioHaazNetworkError.noNetwork))
        return
@@ -340,7 +342,7 @@ The **offline process** in the BioHaazNetwork SDK ensures that important POST re
 
 ### Example Scenario
 
-1. **User tries to submit a form (POST) while offline.**
+1. **User tries to submit a form (POST) or update/delete data (PUT/PATCH/DELETE) while offline.**
 2. The request is **queued**.
 3. When app becomes active or network is restored (if `autoOfflineProcess` is enabled):
    - The SDK **automatically processes** the queued request(s).
@@ -449,7 +451,7 @@ id clearResult = [[BioHaazNetworkManager shared] clearOfflineQueue];
 
 | Step                | What Happens                                      |
 |---------------------|---------------------------------------------------|
-| POST while offline  | Request is queued, not sent                       |
+| POST/PUT/PATCH/DELETE while offline  | Request is queued, not sent                       |
 | App becomes active  | Queue is automatically processed (if `autoOfflineProcess` is enabled) |
 | Network returns     | Queue is automatically processed (if `autoOfflineProcess` is enabled) |
 | Manual processing   | Call `processOfflineQueue()` when app wakes up (recommended) |
@@ -457,4 +459,4 @@ id clearResult = [[BioHaazNetworkManager shared] clearOfflineQueue];
 | Clear queue         | Use `clearOfflineQueue()` to remove all queued requests |
 
 **In short:**  
-The offline process ensures reliability for POST requests by queuing them when offline. The queue is automatically processed when the app becomes active (if enabled), or you can manually process it when the app wakes up from background services like push notifications or location updates. 
+The offline process ensures reliability for POST, PUT, PATCH, and DELETE requests by queuing them when offline. The queue is automatically processed when the app becomes active (if enabled), or you can manually process it when the app wakes up from background services like push notifications or location updates. 

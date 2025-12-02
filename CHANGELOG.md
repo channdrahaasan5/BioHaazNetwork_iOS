@@ -55,6 +55,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Migration Guide
 - N/A (initial release)
 
+## [1.0.5] - 2025-01-XX
+
+### Fixed
+- **Offline Queue Enhancement**: Fixed offline queue to support DELETE, PUT, and PATCH methods in addition to POST
+  - Previously, only POST requests were queued when offline
+  - DELETE and UPDATE operations now properly queue when network is unavailable
+  - All queued requests (POST, PUT, PATCH, DELETE) are automatically processed when network is restored
+  - Improved debug logging to show the correct HTTP method in queue messages
+
+### Changed
+- Updated offline queue logic to handle all mutating HTTP methods
+- Enhanced documentation to reflect offline queue support for all mutating operations
+
+## [1.0.4] - 2025-01-XX
+
+### Removed
+- CocoaPods support removed from the SDK
+
+### Changed
+- Focus on Swift Package Manager and Framework distribution
+- Updated all documentation to reflect new installation methods
+
+## [1.0.3] - 2025-01-XX
+
+### Fixed
+- Swift Package Manager compatibility issues
+- Fixed Git tag naming (lowercase 'v' prefix for semantic versioning)
+
+## [1.0.2] - 2025-01-XX
+
+### Fixed
+- Fixed `BioHaazKeychain` not being included in Swift Package Manager builds
+- Updated `.gitignore` to explicitly include `BioHaazKeychain.swift`
+
+## [1.0.1] - 2025-01-XX
+
+### Added
+- Swift Package Manager support
+
 ## [Unreleased]
 
 ### Planned Features

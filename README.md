@@ -32,18 +32,18 @@ A powerful and feature-rich networking SDK for iOS applications with offline sup
 **Via Xcode:**
 1. In Xcode, go to **File → Add Packages...**
 2. Enter: `https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git`
-3. Select version: `1.0.4` or later
+3. Select version: `1.0.5` or later
 4. Click **Add Package**
 
 **Via Package.swift:**
 ```swift
 dependencies: [
-    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.4")
+    .package(url: "https://github.com/channdrahaasan5/BioHaazNetwork_iOS.git", from: "1.0.5")
 ]
 ```
 ### Manual Installation (.framework)
 
-1. Download `BioHaazNetwork-v1.0.4.framework.zip` from the [Releases](https://github.com/channdrahaasan5/BioHaazNetwork_iOS/releases) page
+1. Download `BioHaazNetwork-v1.0.5.framework.zip` from the [Releases](https://github.com/channdrahaasan5/BioHaazNetwork_iOS/releases) page
 2. Extract the zip file
 3. Drag and drop `BioHaazNetwork.framework` into your Xcode project
 4. Make sure "Copy items if needed" is checked
@@ -131,6 +131,6 @@ https://github.com/channdrahaasan5/BioHaazNetwork_iOS
 
 ## Version
 
-Current version: **1.0.4**
+Current version: **1.0.5**
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.

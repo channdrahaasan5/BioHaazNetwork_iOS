@@ -329,10 +329,12 @@ public class BioHaazNetworkManager {
             completion(.failure(BioHaazNetworkError.invalidURL))
             return
         }
-        // Offline queueing for POST requests
-        if config.autoOfflineProcess, !isNetworkAvailable, method.uppercased() == "POST" {
+        // Offline queueing for POST, PUT, PATCH, DELETE requests
+        let methodUpper = method.uppercased()
+        let queueableMethods = ["POST", "PUT", "PATCH", "DELETE"]
+        if config.autoOfflineProcess, !isNetworkAvailable, queueableMethods.contains(methodUpper) {
             _ = BioHaazOfflineQueue.shared.add(request)
-            if config.debug { BioHaazLogger.shared.log("[QUEUE] Queued POST \(url) due to no network", level: "QUEUE") }
+            if config.debug { BioHaazLogger.shared.log("[QUEUE] Queued \(methodUpper) \(url) due to no network", level: "QUEUE") }
             completion(.failure(BioHaazNetworkError.noNetwork))
             return
         }

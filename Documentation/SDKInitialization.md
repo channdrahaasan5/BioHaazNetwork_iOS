@@ -435,7 +435,7 @@ Performance trackers must be implemented in Swift, but can be registered from Ob
 **Default:** `true`
 
 **Description:**  
-Enables automatic queuing of POST requests when the device is offline. Queued requests are automatically processed when:
+Enables automatic queuing of POST, PUT, PATCH, and DELETE requests when the device is offline. Queued requests are automatically processed when:
 - The app becomes active
 - Network connectivity is restored
 
@@ -450,7 +450,7 @@ autoOfflineProcess:YES
 ```
 
 **How It Works:**
-1. When offline, POST requests are automatically queued
+1. When offline, POST, PUT, PATCH, and DELETE requests are automatically queued
 2. Queue is processed when app becomes active (if enabled)
 3. Queue is processed when network is restored (if enabled)
 4. You can also manually process the queue using `processOfflineQueue()`
