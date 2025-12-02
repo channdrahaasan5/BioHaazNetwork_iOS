@@ -110,6 +110,9 @@ BioHaazNetworkConfig *config = [[BioHaazNetworkConfig alloc]
     }
 }];
 ```
+## Add-On
+💡 The SDK can be customized and modified as per your requirements. Open to feature requests and contributions!
+    MailTo: channdrahaasan5@gmail.com
 
 ## Documentation
 
@@ -128,6 +131,7 @@ See [LICENSE](LICENSE) file for details.
 
 For issues, questions, or contributions, please visit:
 https://github.com/channdrahaasan5/BioHaazNetwork_iOS
+MailTo: channdrahaasan5@gmail.com
 
 ## Version
 
