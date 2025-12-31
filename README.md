@@ -4,7 +4,7 @@ A powerful and feature-rich networking SDK for iOS applications with offline sup
 
 ## Features
 
-- ✅ **HTTP Methods**: GET, POST, PUT, DELETE with full customization
+- ✅ **HTTP Methods**: GET, POST, PUT, PATCH, DELETE with full customization
 - ✅ **Multi-Environment Support**: Easy switching between dev, qa, uat, prod environments
 - ✅ **Offline Queue**: Automatic request queuing when network is unavailable
 - ✅ **Manual Queue Processing**: Process queued requests on-demand

@@ -722,58 +722,75 @@ public class BioHaazNetworkManager {
         
         let dispatchGroup = DispatchGroup()
         
-        // Process the queue
-        let result = BioHaazOfflineQueue.shared.processQueue(using: { [weak self] request in
-            guard let self = self else { return }
-            
+        // Get sorted queue items (without removing them yet)
+        let sortedQueue = BioHaazOfflineQueue.shared.getSortedQueue()
+        
+        guard !sortedQueue.isEmpty else {
+            processedCount.deallocate()
+            failedCount.deallocate()
+            completedCount.deallocate()
+            isProcessingQueue = false
+            completion?(.success(OfflineQueueProcessingResult(
+                processedCount: 0,
+                failedCount: 0,
+                remainingCount: 0,
+                totalAttempted: 0
+            )))
+            return
+        }
+        
+        if config.debug {
+            BioHaazLogger.shared.log("[OFFLINE] Processing \(sortedQueue.count) queued requests", level: "INFO")
+        }
+        
+        // Process each item individually and track by ID
+        for item in sortedQueue {
             dispatchGroup.enter()
             
             // Execute the queued request
-            let task = self.urlSession.dataTask(with: request) { [weak self] data, response, error in
+            let task = self.urlSession.dataTask(with: item.request) { [weak self] data, response, error in
                 defer { dispatchGroup.leave() }
                 
                 guard let self = self, let config = self.config else { return }
                 
                 completedCount.pointee += 1
                 
+                var isSuccess = false
+                
                 if let error = error {
                     failedCount.pointee += 1
                     if config.debug {
-                        BioHaazLogger.shared.log("[OFFLINE] Failed to process queued request: \(error.localizedDescription)", level: "ERROR")
+                        BioHaazLogger.shared.log("[OFFLINE] Failed to process queued request \(item.id): \(error.localizedDescription)", level: "ERROR")
                     }
                 } else if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+                        isSuccess = true
                         processedCount.pointee += 1
                         if config.debug {
-                            BioHaazLogger.shared.log("[OFFLINE] Successfully processed queued request: \(httpResponse.statusCode)", level: "SUCCESS")
+                            BioHaazLogger.shared.log("[OFFLINE] Successfully processed queued request \(item.id): \(httpResponse.statusCode)", level: "SUCCESS")
                         }
                     } else {
                         failedCount.pointee += 1
                         if config.debug {
-                            BioHaazLogger.shared.log("[OFFLINE] Request completed with error status: \(httpResponse.statusCode)", level: "WARNING")
+                            BioHaazLogger.shared.log("[OFFLINE] Request \(item.id) completed with error status: \(httpResponse.statusCode)", level: "WARNING")
                         }
                     }
                 } else {
                     failedCount.pointee += 1
                 }
+                
+                // Remove item from queue only after successful completion
+                // For failed items, update retry count (or remove if max retries reached)
+                if isSuccess {
+                    BioHaazOfflineQueue.shared.removeItem(id: item.id)
+                } else {
+                    _ = BioHaazOfflineQueue.shared.updateItemForRetry(id: item.id)
+                }
             }
             task.resume()
-        }, sendNotifications: false)
-        
-        // Handle immediate errors
-        if case .failure(let error) = result {
-            processedCount.deallocate()
-            failedCount.deallocate()
-            completedCount.deallocate()
-            isProcessingQueue = false
-            if config.debug {
-                BioHaazLogger.shared.log("[OFFLINE] Queue processing failed: \(error.localizedDescription)", level: "ERROR")
-            }
-            completion?(.failure(error))
-            return
         }
         
-        // Wait for all requests to complete (with timeout)
+        // Wait for all requests to complete
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self, let config = self.config else {
                 processedCount.deallocate()
@@ -784,6 +801,7 @@ public class BioHaazNetworkManager {
             
             let finalProcessed = processedCount.pointee
             let finalFailed = failedCount.pointee
+            // Get remaining count after all items have been processed (removed or retry updated)
             let remainingCount = BioHaazOfflineQueue.shared.getQueueCount()
             let totalAttempted = completedCount.pointee
             

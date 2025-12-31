@@ -105,6 +105,9 @@ public class BioHaazOfflineQueue {
         }
     }
     
+    /// Process queue items synchronously (legacy method - items removed immediately)
+    /// NOTE: This method removes items immediately before async requests complete.
+    /// For async processing, use getSortedQueue() and manually remove items after completion.
     public func processQueue(using handler: @escaping (URLRequest) -> Void, sendNotifications: Bool = true) -> Result<Void, BioHaazNetworkError> {
         // Log queue processing start
         BioHaazLogger.shared.logOfflineQueue(
@@ -115,12 +118,7 @@ public class BioHaazOfflineQueue {
         let initialQueueCount = queue.count
         
         // Sort by priority (critical first) and timestamp (FIFO within same priority)
-        let sortedQueue = queue.sorted { first, second in
-            if first.priority.rawValue != second.priority.rawValue {
-                return first.priority.rawValue > second.priority.rawValue
-            }
-            return first.timestamp < second.timestamp
-        }
+        let sortedQueue = getSortedQueue()
         
         var processedItems: [String] = []
         var failedItems: [BioHaazOfflineQueueItem] = []
@@ -183,6 +181,59 @@ public class BioHaazOfflineQueue {
     
     public func getQueueCount() -> Int {
         return queue.count
+    }
+    
+    /// Remove a specific item from the queue by ID (called after successful processing)
+    public func removeItem(id: String) {
+        let beforeCount = queue.count
+        queue.removeAll { $0.id == id }
+        if queue.count < beforeCount {
+            saveQueue()
+            BioHaazLogger.shared.logOfflineQueue(
+                action: "REMOVED_SUCCESS",
+                queueCount: queue.count,
+                requestId: id
+            )
+        }
+    }
+    
+    /// Update item retry count after failed processing
+    public func updateItemForRetry(id: String) -> Bool {
+        guard let index = queue.firstIndex(where: { $0.id == id }) else {
+            return false
+        }
+        
+        let item = queue[index]
+        if item.canRetry() {
+            queue[index] = item.withIncrementedRetry()
+            saveQueue()
+            BioHaazLogger.shared.logOfflineQueue(
+                action: "RETRY_INCREMENTED",
+                queueCount: queue.count,
+                requestId: id
+            )
+            return true
+        } else {
+            // Max retries reached, remove item
+            queue.remove(at: index)
+            saveQueue()
+            BioHaazLogger.shared.logOfflineQueue(
+                action: "REMOVED_MAX_RETRIES",
+                queueCount: queue.count,
+                requestId: id
+            )
+            return false
+        }
+    }
+    
+    /// Get sorted queue items without removing them (for async processing)
+    public func getSortedQueue() -> [BioHaazOfflineQueueItem] {
+        return queue.sorted { first, second in
+            if first.priority.rawValue != second.priority.rawValue {
+                return first.priority.rawValue > second.priority.rawValue
+            }
+            return first.timestamp < second.timestamp
+        }
     }
     
     /// Get queue statistics including duplicate information
